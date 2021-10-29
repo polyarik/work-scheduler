@@ -24,8 +24,11 @@ with open("{0}/{1} - schedule.txt".format(path, strtime), "w") as schedule_file:
     schedule_file.write("\nPlans:\n-\n\n")
     schedule_file.write("\nTime ({}):\n".format(work_periods))
 
+    workDuration = int(configurations["workDuration"])
+    breakDuration = int(configurations["breakDuration"])
+
     for i in range(1, work_periods + 1):
-        schedule_file.write("{0:2}) {1} - {2} | \n".format(i, time.strftime("%I:%M"), (time + timedelta(minutes = 52)).strftime("%I:%M")))
-        time += timedelta(minutes = 52 + 17)
+        schedule_file.write("{0:2}) {1} - {2} | \n".format(i, time.strftime("%I:%M"), (time + timedelta(minutes = workDuration)).strftime("%I:%M")))
+        time += timedelta(minutes = workDuration + breakDuration)
 
     schedule_file.write("\nProductivity: _%")
