@@ -1,4 +1,9 @@
+import json
 from datetime import datetime, timedelta
+
+
+with open('config.json', 'r') as config_file:
+    configurations = json.load(config_file)
 
 print("start time (h:m) -", end=" ")
 start_hour, start_minute = map(int, input().split(":"))
@@ -10,15 +15,17 @@ time = datetime(datetime.today().year, datetime.today().month, datetime.today().
 
 #-------------------------
 
-file = open(time.strftime("%Y.%m.%d")+".txt", "w")
+path = configurations["pathToSchedules"]
+strtime = time.strftime("%Y.%m.%d")
 
-file.write("{} ({}):\n".format(time.strftime("%m/%d"), time.strftime("%A")[:2]))
-file.write("\nTasks:\n-\n\n")
-file.write("\nPlans:\n-\n\n")
-file.write("\nTime ({}):\n".format(work_periods))
+with open("{0}/{1} - schedule.txt".format(path, strtime), "w") as schedule_file:
+    schedule_file.write("{} ({}):\n".format(time.strftime("%m/%d"), time.strftime("%A")[:2]))
+    schedule_file.write("\nTasks:\n-\n\n")
+    schedule_file.write("\nPlans:\n-\n\n")
+    schedule_file.write("\nTime ({}):\n".format(work_periods))
 
-for i in range(1, work_periods + 1):
-    file.write("{0:2}) {1} - {2} | \n".format(i, time.strftime("%I:%M"), (time + timedelta(minutes = 52)).strftime("%I:%M")))
-    time += timedelta(minutes = 52 + 17)
+    for i in range(1, work_periods + 1):
+        schedule_file.write("{0:2}) {1} - {2} | \n".format(i, time.strftime("%I:%M"), (time + timedelta(minutes = 52)).strftime("%I:%M")))
+        time += timedelta(minutes = 52 + 17)
 
-file.write("\nProductivity: _%")
+    schedule_file.write("\nProductivity: _%")
