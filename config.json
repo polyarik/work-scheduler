@@ -1,5 +1,6 @@
 {
     "pathToSchedules": ".",
     "workDuration": 52,
-    "breakDuration": 17
+    "breakDuration": 17,
+    "hourFormat": 12
 }

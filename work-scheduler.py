@@ -26,9 +26,13 @@ with open("{0}/{1} - schedule.txt".format(path, strtime), "w") as schedule_file:
 
     workDuration = int(configurations["workDuration"])
     breakDuration = int(configurations["breakDuration"])
+    hourFormat = "H" if configurations["hourFormat"] == 24 else "I"
 
     for i in range(1, work_periods + 1):
-        schedule_file.write("{0:2}) {1} - {2} | \n".format(i, time.strftime("%I:%M"), (time + timedelta(minutes = workDuration)).strftime("%I:%M")))
+        work_start_time = time.strftime("%{0}:%M".format(hourFormat))
+        break_start_time = (time + timedelta(minutes = workDuration)).strftime("%{0}:%M".format(hourFormat))
+
+        schedule_file.write("{0:2}) {1} - {2} | \n".format(i, work_start_time, break_start_time))
         time += timedelta(minutes = workDuration + breakDuration)
 
     schedule_file.write("\nProductivity: _%")
